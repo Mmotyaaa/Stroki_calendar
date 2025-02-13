@@ -1,0 +1,23 @@
+.calendar-container {
+  margin: 20px;
+  height: 80vh;
+  position: relative;
+  z-index: 0;
+}
+
+.rbc-calendar {
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.rbc-event {
+  background-color: #3892c4;
+  color: white;
+  padding: 5px;
+  border-radius: 3px;
+}
+
+.rbc-event:hover {
+  background-color: #2a7aa1;
+}  

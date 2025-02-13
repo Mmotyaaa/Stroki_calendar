@@ -1,0 +1,89 @@
+.booking-modal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px;
+  height: 93%;
+}
+
+.booking-modal {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  z-index: 11;
+  max-width: 400px;
+  margin: auto;
+}
+
+.selected-date {
+  margin-bottom: 20px;
+  font-size: 16px;
+  color: #555;
+}
+
+.booking-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  width: 100%;
+  max-width: 400px;
+}
+
+.booking-input, .booking-textarea, .booking-select {
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.booking-textarea {
+  resize: none;
+  height: 100px;
+}
+
+.booking-select {
+  appearance: none; /* Убираем стандартный стиль браузера */
+  background-color: white;
+  cursor: pointer;
+}
+
+.booking-select:hover {
+  border-color: #3892c4;
+}
+
+.booking-submit {
+  background-color: #3892c4;
+  color: white;
+  border: none;
+  padding: 10px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.booking-submit:hover {
+  background-color: #2a7aa1;
+}
+
+.booking-close {
+  background-color: #f44336;
+  color: white;
+  border: none;
+  padding: 10px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.booking-close:hover {
+  background-color: #d32f2f;
+}
+
+.auth-logo {
+  margin-top: auto;
+  width: 120px;
+  height: auto;
+}
