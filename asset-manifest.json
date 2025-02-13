@@ -1,16 +1,16 @@
 {
   "files": {
-    "main.css": "/Mmotyaaa/Stroki_calendar.git/static/css/main.234a6e80.css",
-    "main.js": "/Mmotyaaa/Stroki_calendar.git/static/js/main.7f3539cd.js",
-    "static/js/488.6d3561f0.chunk.js": "/Mmotyaaa/Stroki_calendar.git/static/js/488.6d3561f0.chunk.js",
-    "static/media/stroki.svg": "/Mmotyaaa/Stroki_calendar.git/static/media/stroki.4af6e8a264a80775fdce102dd4d78490.svg",
-    "index.html": "/Mmotyaaa/Stroki_calendar.git/index.html",
-    "main.234a6e80.css.map": "/Mmotyaaa/Stroki_calendar.git/static/css/main.234a6e80.css.map",
-    "main.7f3539cd.js.map": "/Mmotyaaa/Stroki_calendar.git/static/js/main.7f3539cd.js.map",
-    "488.6d3561f0.chunk.js.map": "/Mmotyaaa/Stroki_calendar.git/static/js/488.6d3561f0.chunk.js.map"
+    "main.css": "/Stroki_calendar/static/css/main.234a6e80.css",
+    "main.js": "/Stroki_calendar/static/js/main.26022cca.js",
+    "static/js/488.6d3561f0.chunk.js": "/Stroki_calendar/static/js/488.6d3561f0.chunk.js",
+    "static/media/stroki.svg": "/Stroki_calendar/static/media/stroki.4af6e8a264a80775fdce102dd4d78490.svg",
+    "index.html": "/Stroki_calendar/index.html",
+    "main.234a6e80.css.map": "/Stroki_calendar/static/css/main.234a6e80.css.map",
+    "main.26022cca.js.map": "/Stroki_calendar/static/js/main.26022cca.js.map",
+    "488.6d3561f0.chunk.js.map": "/Stroki_calendar/static/js/488.6d3561f0.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.234a6e80.css",
-    "static/js/main.7f3539cd.js"
+    "static/js/main.26022cca.js"
   ]
 }
