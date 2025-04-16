@@ -17,6 +17,7 @@ const TitlePage = ({ onNavigate }) => {
         <div className="button-container">
           <button onClick={onNavigate}>Перейти на сайт</button>
         </div>
+        
 
         <div className="author-info">
           <p>Выполнил: Студент группы 1-ИС Кривов Матвей Леонидович</p>
