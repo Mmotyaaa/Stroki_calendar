@@ -1,57 +1,80 @@
-.auth-modal {
+/* Добавьте эти стили в ваш существующий AuthModal.css */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
   display: flex;
-  flex-direction: column;
+  justify-content: center;
   align-items: center;
-  justify-content: space-between;
-  padding: 20px;
-  height: 93%;
+  z-index: 1000;
 }
 
-.auth-form {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
+.modal-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #666;
+}
+
+.auth-modal {
+  position: relative;
+  background: white;
+  padding: 25px;
+  border-radius: 8px;
   width: 100%;
-  max-width: 300px;
+  max-width: 400px;
+  margin: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.auth-input {
-  padding: 10px;
-  font-size: 16px;
+/* Остальные ваши существующие стили остаются без изменений */
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 8px;
   border: 1px solid #ddd;
-  border-radius: 5px;
+  border-radius: 4px;
 }
 
-.auth-submit {
-  background-color: #3892c4;
+.error-message {
+  color: red;
+  margin-bottom: 15px;
+}
+
+.auth-button {
+  width: 100%;
+  padding: 10px;
+  background-color: #4CAF50;
   color: white;
   border: none;
-  padding: 10px;
-  font-size: 16px;
+  border-radius: 4px;
   cursor: pointer;
-  border-radius: 5px;
 }
 
-.auth-submit:hover {
-  background-color: #2a7aa1;
+.auth-switch {
+  margin-top: 15px;
+  text-align: center;
 }
 
-.auth-close {
-  background-color: #f44336;
-  color: white;
+.auth-switch button {
+  background: none;
   border: none;
-  padding: 10px;
-  font-size: 16px;
+  color: #4CAF50;
+  text-decoration: underline;
   cursor: pointer;
-  border-radius: 5px;
-}
-
-.auth-close:hover {
-  background-color: #d32f2f;
-}
-
-.auth-logo {
-  margin-top: auto;
-  width: 120px;
-  height: auto;
 }
