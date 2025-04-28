@@ -20,4 +20,35 @@
 
 .rbc-event:hover {
   background-color: #2a7aa1;
-}  
+}
+
+.booking-error {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #ff4444;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 4px;
+  z-index: 1000;
+  animation: fadeIn 0.3s;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.rbc-event {
+  background-color: #4CAF50;
+  border-color: #3d8b40;
+}
+
+.rbc-event.rbc-selected {
+  background-color: #3d8b40;
+}
+
+.rbc-today {
+  background-color: #e6f7ff;
+}

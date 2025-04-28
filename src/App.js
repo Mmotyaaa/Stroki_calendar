@@ -1,50 +1,85 @@
-import React, { useState } from "react";
-import Header from "./components/Header";
-import Calendar from "./components/Calendar";
-import AuthModal from "./components/AuthModal";
-import BookingModal from "./components/BookingModal";
-import TitlePage from "./components/TitlePage";
+import { useState, useEffect } from 'react';
+import { auth } from './firebase';
+import Calendar from './components/Calendar';
+import AuthModal from './components/AuthModal';
+import Header from './components/Header';
+import AccountPage from './components/AccountPage';
+import ConfirmModal from './components/ConfirmModal';
+import './App.css';
 
-const App = () => {
-  const [isAuthModalOpen, setAuthModalOpen] = useState(false);
-  const [isBookingModalOpen, setBookingModalOpen] = useState(false);
-  const [selectedDate, setSelectedDate] = useState(null);
-  const [showProject, setShowProject] = useState(false);
+function App() {
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+  const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
+  const [user, setUser] = useState(null);
+  const [currentView, setCurrentView] = useState('calendar');
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      setUser(user);
+      setIsLoading(false);
+      if (user) setCurrentView('calendar');
+    });
+    return () => unsubscribe();
+  }, []);
+
+  const handleAuthSuccess = () => {
+    setIsAuthModalOpen(false);
+  };
+
+  const handleAccountClick = () => {
+    if (user) setCurrentView('account');
+  };
+
+  const handleLogoutConfirm = () => {
+    auth.signOut();
+    setCurrentView('calendar');
+    setIsConfirmModalOpen(false);
+  };
+
+  const handleLogoutClick = () => {
+    setIsConfirmModalOpen(true);
+  };
+
+  const handleBackToCalendar = () => {
+    setCurrentView('calendar');
+  };
+
+  if (isLoading) {
+    return <div className="app-loading"><div className="loader"></div></div>;
+  }
 
   return (
-    <div className="App">
-      {/* Если showProject === false, показываем титульную страницу */}
-      {!showProject ? (
-        <TitlePage onNavigate={() => setShowProject(true)} />
-      ) : (
-        <>
-          {/* Шапка */}
-          <Header onLoginClick={() => setAuthModalOpen(true)} />
+    <div className={`app-container ${isAuthModalOpen || isConfirmModalOpen ? 'modal-open' : ''}`}>
+      <Header
+        user={user}
+        onLoginClick={() => setIsAuthModalOpen(true)}
+        onLogout={handleLogoutClick}
+        onAccountClick={handleAccountClick}
+      />
 
-          {/* Календарь */}
-          <Calendar
-            onSelectEvent={(date) => {
-              setSelectedDate(date);
-              setBookingModalOpen(true);
-            }}
-          />
+      <main className="main-content">
+        {currentView === 'calendar' ? (
+          <Calendar />
+        ) : (
+          <AccountPage user={user} onBack={handleBackToCalendar} />
+        )}
+      </main>
 
-          {/* Модальное окно авторизации */}
-          <AuthModal
-            isOpen={isAuthModalOpen}
-            onClose={() => setAuthModalOpen(false)}
-          />
+      <AuthModal
+        isOpen={isAuthModalOpen}
+        onClose={() => setIsAuthModalOpen(false)}
+        onAuthSuccess={handleAuthSuccess}
+      />
 
-          {/* Модальное окно бронирования */}
-          <BookingModal
-            isOpen={isBookingModalOpen}
-            selectedDate={selectedDate}
-            onClose={() => setBookingModalOpen(false)}
-          />
-        </>
-      )}
+      <ConfirmModal
+        isOpen={isConfirmModalOpen}
+        onClose={() => setIsConfirmModalOpen(false)}
+        onConfirm={handleLogoutConfirm}
+        message="Вы уверены что хотите выйти?"
+      />
     </div>
   );
-};
+}
 
 export default App;

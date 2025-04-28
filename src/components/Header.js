@@ -1,11 +1,32 @@
-import React from "react";
-import "./Header.css";
+import './Header.css';
 
-const Header = ({ onLoginClick }) => {
+const Header = ({ user, onLoginClick, onLogout, onAccountClick }) => {
   return (
     <header className="header">
-      <h1>Система бронирования</h1>
-      <button onClick={onLoginClick} className="login-button">Войти</button>
+      <nav className="nav-container">
+        <button className="nav-button" onClick={() => window.location.reload()}>
+          Главная
+        </button>
+        <div className="auth-buttons">
+          {user ? (
+            <>
+              <button className="nav-button" onClick={onLogout}>
+                Выйти
+              </button>
+              <button 
+                className="nav-button account-button" 
+                onClick={onAccountClick}
+              >
+                Личный кабинет
+              </button>
+            </>
+          ) : (
+            <button className="nav-button login-button" onClick={onLoginClick}>
+              Войти
+            </button>
+          )}
+        </div>
+      </nav>
     </header>
   );
 };
