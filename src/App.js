@@ -1,10 +1,11 @@
-import { useState, useEffect } from 'react';
 import { auth } from './firebase';
+import { useState, useEffect } from 'react';
 import Calendar from './components/Calendar';
 import AuthModal from './components/AuthModal';
 import Header from './components/Header';
 import AccountPage from './components/AccountPage';
 import ConfirmModal from './components/ConfirmModal';
+import TitlePage from './components/TitlePage';
 import './App.css';
 
 function App() {
@@ -13,8 +14,16 @@ function App() {
   const [user, setUser] = useState(null);
   const [currentView, setCurrentView] = useState('calendar');
   const [isLoading, setIsLoading] = useState(true);
+  const [showTitlePage, setShowTitlePage] = useState(false);
 
   useEffect(() => {
+    // Проверяем sessionStorage вместо localStorage
+    const hasVisited = sessionStorage.getItem('hasVisited');
+    if (!hasVisited) {
+      setShowTitlePage(true);
+      sessionStorage.setItem('hasVisited', 'true');
+    }
+
     const unsubscribe = auth.onAuthStateChanged((user) => {
       setUser(user);
       setIsLoading(false);
@@ -45,8 +54,16 @@ function App() {
     setCurrentView('calendar');
   };
 
+  const handleNavigateFromTitle = () => {
+    setShowTitlePage(false);
+  };
+
   if (isLoading) {
     return <div className="app-loading"><div className="loader"></div></div>;
+  }
+
+  if (showTitlePage) {
+    return <TitlePage onNavigate={handleNavigateFromTitle} />;
   }
 
   return (

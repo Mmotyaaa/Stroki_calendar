@@ -1,24 +1,7 @@
-.account-container {
-  max-width: 800px;
+.account-page {
+  max-width: 1000px;
   margin: 0 auto;
-  padding: 2rem;
-  background-color: white;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-}
-
-.account-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 2rem;
-  border-bottom: 1px solid #eee;
-  padding-bottom: 1rem;
-}
-
-.account-title {
-  margin: 0;
-  color: #2c3e50;
+  padding: 20px;
 }
 
 .back-button {
@@ -26,67 +9,99 @@
   border: none;
   color: #3498db;
   cursor: pointer;
-  font-size: 1rem;
+  font-size: 16px;
+  margin-bottom: 20px;
+  padding: 5px 10px;
 }
 
-.account-info {
-  display: grid;
-  grid-template-columns: 1fr 2fr;
-  gap: 2rem;
+.back-button:hover {
+  text-decoration: underline;
 }
 
-.info-card {
-  background-color: #f9f9f9;
-  padding: 1.5rem;
+.profile-section {
+  background: #f9f9f9;
+  padding: 20px;
   border-radius: 8px;
+  margin-bottom: 20px;
 }
 
-.info-title {
-  margin-top: 0;
-  color: #2c3e50;
-  border-bottom: 1px solid #eee;
-  padding-bottom: 0.5rem;
+.profile-info {
+  margin-top: 15px;
 }
 
-.info-item {
-  margin-bottom: 0.75rem;
+.profile-info p {
+  margin: 8px 0;
+}
+
+.profile-name {
   display: flex;
-  gap: 0.5rem;
+  align-items: center;
+  gap: 10px;
 }
 
-.info-item span:first-child {
-  font-weight: 500;
-  color: #34495e;
+.name-edit {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 15px;
 }
 
-.status-badge {
-  padding: 0.25rem 0.5rem;
+.name-input {
+  padding: 8px 12px;
+  border: 1px solid #ddd;
   border-radius: 4px;
-  font-size: 0.8rem;
+  font-size: 16px;
+  width: 100%;
+  max-width: 300px;
 }
 
-.status-badge.unconfirmed {
-  background-color: #fdecea;
-  color: #e74c3c;
+.name-edit-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.edit-name-button,
+.save-name-button,
+.cancel-edit-button {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.2s;
+}
+
+.edit-name-button {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.edit-name-button:hover {
+  background-color: #3d8b40;
+}
+
+.save-name-button {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.save-name-button:hover {
+  background-color: #3d8b40;
+}
+
+.cancel-edit-button {
+  background-color: #f44336;
+  color: white;
+}
+
+.cancel-edit-button:hover {
+  background-color: #942121;
 }
 
 .bookings-section {
-  background-color: #f9f9f9;
-  padding: 1.5rem;
+  background: #f9f9f9;
+  padding: 20px;
   border-radius: 8px;
-}
-
-.section-title {
-  margin-top: 0;
-  color: #2c3e50;
-  border-bottom: 1px solid #eee;
-  padding-bottom: 0.5rem;
-}
-
-.no-bookings {
-  color: #7f8c8d;
-  text-align: center;
-  margin-top: 2rem;
 }
 
 .bookings-list {
@@ -103,13 +118,71 @@
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
-.booking-card h3 {
-  margin-top: 0;
-  color: #2c3e50;
-  border-bottom: 1px solid #eee;
-  padding-bottom: 10px;
+.booking-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
 }
 
-.booking-card p {
+.booking-details {
+  margin-top: 10px;
+}
+
+.booking-details p {
   margin: 8px 0;
+}
+
+.status {
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.status.active {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.status.cancelled {
+  background-color: #f44336;
+  color: white;
+}
+
+.cancel-button {
+  background-color: #f44336;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  margin-top: 10px;
+  transition: background-color 0.3s;
+}
+
+.cancel-button:hover {
+  background-color: #d32f2f;
+}
+
+.loading {
+  text-align: center;
+  padding: 20px;
+}
+
+.no-bookings {
+  text-align: center;
+  color: #777;
+  padding: 20px;
+}
+
+@media (max-width: 768px) {
+  .account-page {
+    padding: 10px;
+  }
+  
+  .bookings-list {
+    grid-template-columns: 1fr;
+  }
 }
