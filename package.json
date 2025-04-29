@@ -2,7 +2,7 @@
   "name": "calendar",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://mmotyaaa.github.io/Stroki_calendar/",
+  "homepage": ".",
   "dependencies": {
     "cra-template": "1.2.0",
     "firebase": "^11.6.1",
