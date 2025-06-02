@@ -3,7 +3,7 @@ import { Calendar as BigCalendar, momentLocalizer, Views } from 'react-big-calen
 import moment from 'moment';
 import 'moment/locale/ru';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
-import { collection, query, onSnapshot } from 'firebase/firestore';
+import { collection, query, onSnapshot, getDocs } from 'firebase/firestore';
 import { db, auth } from '../firebase';
 import BookingModal from './BookingModal';
 import './Calendar.css';
@@ -21,6 +21,17 @@ const Calendar = () => {
   const [currentDate, setCurrentDate] = useState(new Date());
 
   useEffect(() => {
+    console.log("Проверка подключения к Firebase...");
+    const testConnection = async () => {
+      try {
+        const snapshot = await getDocs(collection(db, 'bookings'));
+        console.log("Данные получены:", snapshot.docs.length, "бронирований");
+      } catch (error) {
+        console.error("Ошибка подключения:", error);
+      }
+    };
+    testConnection();
+
     const q = query(collection(db, 'bookings'));
     
     const unsubscribe = onSnapshot(q, 
@@ -137,24 +148,44 @@ const Calendar = () => {
   );
 
   // Компонент для отображения события в режиме расписания
-  const CustomAgendaEvent = ({ event }) => (
-    <div className="custom-agenda-event">
-      <div className="agenda-event-header">
-        <span className="agenda-event-time">
-          {moment(event.start).format('HH:mm')} - {moment(event.end).format('HH:mm')}
-        </span>
-        <span className="agenda-event-title">{event.title}</span>
-      </div>
-      {event.resource.description && (
-        <div className="agenda-event-description">
-          {event.resource.description}
+  const CustomAgendaEvent = ({ event }) => {
+    const eventsCount = events.filter(e => 
+      moment(e.start).isSame(event.start, 'day')
+    ).length;
+
+    if (eventsCount > 3 && events.indexOf(event) >= 3) {
+      return null;
+    }
+
+    if (events.indexOf(event) === 3 && eventsCount > 3) {
+      return (
+        <div className="custom-agenda-event">
+          <div className="agenda-event-more">
+            еще +{eventsCount - 3}
+          </div>
         </div>
-      )}
-      <div className="agenda-event-user">
-        Забронировал: {event.resource.userName}
+      );
+    }
+
+    return (
+      <div className="custom-agenda-event">
+        <div className="agenda-event-header">
+          <span className="agenda-event-time">
+            {moment(event.start).format('HH:mm')} - {moment(event.end).format ('HH:mm')}
+          </span>
+          <span className="agenda-event-title">{event.title}</span>
+        </div>
+        {event.resource.description && (
+          <div className="agenda-event-description">
+            {event.resource.description}
+          </div>
+        )}
+        <div className="agenda-event-user">
+          Забронировал: {event.resource.userName}
+        </div>
       </div>
-    </div>
-  );
+    );
+  };
 
   if (loading) {
     return <div className="loading">Загрузка календаря...</div>;
@@ -268,6 +299,7 @@ const Calendar = () => {
           day: 'День',
           agenda: 'Расписание',
           noEventsInRange: 'Нет бронирований'
+          
         }}
       />
 

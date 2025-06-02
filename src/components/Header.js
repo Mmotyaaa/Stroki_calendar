@@ -1,27 +1,65 @@
 import './Header.css';
 
-const Header = ({ user, onLoginClick, onLogout, onAccountClick }) => {
+const Header = ({ 
+  user, 
+  isAdmin, 
+  onLoginClick, 
+  onLogout, 
+  onAccountClick,
+  onAdminPanelClick,
+  onRoomsClick
+}) => {
   return (
     <header className="header">
       <nav className="nav-container">
-        <button className="nav-button" onClick={() => window.location.reload()}>
-          Главная
-        </button>
+        <nav>
+          <button 
+            className="nav-button" 
+            onClick={() => window.location.reload()}
+          >
+            Главная
+          </button>
+    
+          <button
+            className="nav-button"
+            onClick={onRoomsClick}
+          >
+            Кабинеты
+          </button>
+        </nav>
+        
         <div className="auth-buttons">
           {user ? (
             <>
-              <button className="nav-button" onClick={onLogout}>
-                Выйти
-              </button>
+              {isAdmin && (
+                <button 
+                  className="nav-button admin-button"
+                  onClick={onAdminPanelClick}
+                >
+                  Админ-панель
+                </button>
+              )}
+              
               <button 
                 className="nav-button account-button" 
                 onClick={onAccountClick}
+                disabled={!user}
               >
                 Личный кабинет
               </button>
+              
+              <button 
+                className="nav-button logout-button" 
+                onClick={onLogout}
+              >
+                Выйти
+              </button>
             </>
           ) : (
-            <button className="nav-button login-button" onClick={onLoginClick}>
+            <button 
+              className="nav-button login-button" 
+              onClick={onLoginClick}
+            >
               Войти
             </button>
           )}

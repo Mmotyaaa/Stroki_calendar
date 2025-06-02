@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Modal from 'react-modal';
 import moment from 'moment';
 import './BookingModal.css';
-import { collection, addDoc, query, where, getDocs } from 'firebase/firestore';
+import { collection, addDoc, query, where, getDocs, onSnapshot } from 'firebase/firestore';
 import { db, auth } from '../firebase';
 
 const generateTimeSlots = () => {
@@ -23,10 +23,32 @@ const BookingModal = ({ isOpen, onClose, onBookingSuccess, selectedDate }) => {
   const [description, setDescription] = useState('');
   const [startTime, setStartTime] = useState('09:00');
   const [endTime, setEndTime] = useState('10:00');
-  const [room, setRoom] = useState('504');
+  const [room, setRoom] = useState('');
+  const [rooms, setRooms] = useState([]);
   const [timeError, setTimeError] = useState('');
   const [bookingError, setBookingError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  // Загрузка кабинетов при открытии модального окна
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const unsubscribe = onSnapshot(collection(db, 'rooms'), (snapshot) => {
+      const roomsData = snapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+      })).filter(room => room.isActive); // Только активные кабинеты
+      
+      setRooms(roomsData);
+      
+      // Устанавливаем первый кабинет как выбранный по умолчанию
+      if (roomsData.length > 0 && !room) {
+        setRoom(roomsData[0].number);
+      }
+    });
+
+    return () => unsubscribe();
+  }, [isOpen]);
 
   useEffect(() => {
     if (isOpen) {
@@ -34,7 +56,6 @@ const BookingModal = ({ isOpen, onClose, onBookingSuccess, selectedDate }) => {
       setDescription('');
       setStartTime('09:00');
       setEndTime('10:00');
-      setRoom('504');
       setTimeError('');
       setBookingError('');
     }
@@ -60,6 +81,12 @@ const BookingModal = ({ isOpen, onClose, onBookingSuccess, selectedDate }) => {
 
     if (!title.trim()) {
       setBookingError('Введите название события');
+      setIsSubmitting(false);
+      return;
+    }
+
+    if (!room) {
+      setBookingError('Выберите кабинет');
       setIsSubmitting(false);
       return;
     }
@@ -123,9 +150,7 @@ const BookingModal = ({ isOpen, onClose, onBookingSuccess, selectedDate }) => {
       onClose();
     } catch (error) {
       console.error('Booking error:', error);
-      if (!bookingError) {
-        setBookingError('Произошла непредвиденная ошибка. Пожалуйста, попробуйте еще раз.');
-      }
+      setBookingError('Произошла непредвиденная ошибка. Пожалуйста, попробуйте еще раз.');
     } finally {
       setIsSubmitting(false);
     }
@@ -217,12 +242,18 @@ const BookingModal = ({ isOpen, onClose, onBookingSuccess, selectedDate }) => {
               value={room}
               onChange={(e) => setRoom(e.target.value)}
               className="booking-input"
-              disabled={isSubmitting}
+              disabled={isSubmitting || rooms.length === 0}
+              required
             >
-              <option value="504">504</option>
-              <option value="505">505</option>
-              <option value="510">510</option>
-              <option value="511">511</option>
+              {rooms.length === 0 ? (
+                <option value="">Загрузка кабинетов...</option>
+              ) : (
+                rooms.map(roomItem => (
+                  <option key={roomItem.id} value={roomItem.number}>
+                    {roomItem.number} - {roomItem.description} (Вместимость: {roomItem.capacity})
+                  </option>
+                ))
+              )}
             </select>
           </div>
 
@@ -238,7 +269,7 @@ const BookingModal = ({ isOpen, onClose, onBookingSuccess, selectedDate }) => {
             <button
               type="submit"
               className="booking-submit"
-              disabled={isSubmitting}
+              disabled={isSubmitting || rooms.length === 0}
             >
               {isSubmitting ? 'Сохранение...' : 'Забронировать'}
             </button>
