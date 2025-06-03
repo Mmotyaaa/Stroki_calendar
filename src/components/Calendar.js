@@ -123,13 +123,14 @@ const Calendar = () => {
 
   // Стилизация событий
   const eventStyleGetter = (event) => {
-    const backgroundColor = event.resource.status === 'active' ? '#4CAF50' : '#f44336';
+    const isCancelled = event.resource.status === 'cancelled';
     return {
+      className: isCancelled ? 'cancelled' : '',
       style: {
-        backgroundColor,
+        backgroundColor: isCancelled ? '#f5f5f5' : '#4CAF50',
         borderRadius: '3px',
         opacity: 0.9,
-        color: 'white',
+        color: isCancelled ? '#999' : 'white',
         border: '0px',
         display: 'block',
         padding: '2px 5px'
@@ -298,8 +299,8 @@ const Calendar = () => {
           week: 'Неделя',
           day: 'День',
           agenda: 'Расписание',
-          noEventsInRange: 'Нет бронирований'
-          
+          noEventsInRange: 'Нет бронирований',
+          showMore: total => `+${total}`
         }}
       />
 

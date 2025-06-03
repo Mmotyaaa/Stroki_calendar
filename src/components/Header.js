@@ -17,7 +17,7 @@ const Header = ({
             className="nav-button" 
             onClick={() => window.location.reload()}
           >
-            Главная
+            Календарь
           </button>
     
           <button

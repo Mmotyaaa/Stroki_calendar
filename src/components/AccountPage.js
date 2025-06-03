@@ -108,10 +108,6 @@ const AccountPage = ({ onBack }) => {
 
   return (
     <div className="account-page">
-      <button onClick={onBack} className="back-button">
-        ← Назад к календарю
-      </button>
-
       <div className="profile-section">
         <h2>Мой профиль</h2>
         {userData && (

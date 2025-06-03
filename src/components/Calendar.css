@@ -3,52 +3,334 @@
   height: 80vh;
   position: relative;
   z-index: 0;
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(5px);
+  border-radius: 20px;
+  padding: 20px;
+  box-shadow: 0 8px 32px rgba(31, 38, 135, 0.1);
+  overflow: hidden;
 }
 
 .rbc-calendar {
-  background-color: #ffffff;
-  border: 1px solid #ddd;
-  border-radius: 5px;
+  background-color: transparent;
+  border: none;
+  border-radius: 15px;
+  overflow: hidden;
+  height: calc(100% - 60px);
 }
 
-.rbc-event {
-  background-color: #3892c4;
+.rbc-month-view,
+.rbc-time-view,
+.rbc-agenda-view {
+  border-radius: 15px;
+  overflow: hidden;
+  background: white;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  height: 100%;
+}
+
+.rbc-time-content {
+  overflow-y: hidden;
+}
+
+.rbc-time-header {
+  overflow: hidden;
+  flex: none;
+}
+
+.rbc-time-content {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+}
+
+.rbc-allday-cell {
+  display: none;
+}
+
+.rbc-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  padding: 10px 0;
+  background: transparent;
+  border: none;
+  height: 50px;
+}
+
+.rbc-header {
+  background: linear-gradient(45deg, #3892c4, #4a6bdf);
   color: white;
+  padding: 10px 0;
+  border: none;
+  font-weight: 500;
+}
+
+.rbc-date-cell {
   padding: 5px;
-  border-radius: 3px;
+  text-align: center;
 }
 
-.rbc-event:hover {
-  background-color: #2a7aa1;
+.rbc-date-cell > a {
+  color: #2c3e50;
+  text-decoration: none;
+  font-weight: 500;
 }
 
-.booking-error {
-  position: fixed;
-  top: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: #ff4444;
-  color: white;
-  padding: 10px 20px;
-  border-radius: 4px;
-  z-index: 1000;
-  animation: fadeIn 0.3s;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-.rbc-event {
-  background-color: #4CAF50;
-  border-color: #3d8b40;
-}
-
-.rbc-event.rbc-selected {
-  background-color: #3d8b40;
+.rbc-off-range-bg {
+  background: #f8f9fa;
 }
 
 .rbc-today {
-  background-color: #e6f7ff;
+  background-color: rgba(56, 146, 196, 0.15);
+  position: relative;
+}
+
+.rbc-today::after {
+  content: '';
+  position: absolute;
+  bottom: 2px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 20px;
+  height: 3px;
+  background: #3892c4;
+  border-radius: 3px;
+}
+
+.rbc-event {
+  background: linear-gradient(45deg, #3892c4, #4a6bdf);
+  border: none;
+  border-radius: 8px;
+  padding: 3px 5px;
+  color: white;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.rbc-event:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  opacity: 0.95;
+}
+
+.rbc-event.rbc-selected {
+  background: linear-gradient(45deg, #4a6bdf, #3892c4);
+}
+
+.rbc-event.cancelled {
+  background: linear-gradient(45deg, #f9f9f9, #e0e0e0) !important;
+  color: #999 !important;
+  box-shadow: none !important;
+}
+
+.rbc-event.cancelled::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 10%;
+  width: 80%;
+  height: 1px;
+  background-color: #f44336;
+  transform: rotate(-5deg);
+}
+
+.rbc-event.cancelled:hover {
+  transform: none;
+  box-shadow: none;
+}
+
+.rbc-current-time-indicator {
+  background-color: #f44336;
+  height: 2px;
+}
+
+.rbc-btn-group {
+  display: flex;
+  gap: 8px;
+}
+
+.rbc-btn-group button {
+  background: white;
+  border: 1px solid #e0e0e0;
+  color: #2c3e50;
+  padding: 8px 16px;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 14px;
+}
+
+.rbc-btn-group button:hover {
+  background: #f0f0f0;
+  transform: translateY(-1px);
+}
+
+.rbc-btn-group button.rbc-active {
+  background: linear-gradient(45deg, #3892c4, #4a6bdf);
+  color: white;
+  border-color: transparent;
+  box-shadow: 0 2px 5px rgba(56, 146, 196, 0.3);
+}
+
+.rbc-toolbar-label {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #2c3e50;
+  padding: 0 15px;
+}
+
+.custom-event {
+  padding: 3px;
+}
+
+.event-title {
+  font-weight: 500;
+  font-size: 0.85rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.event-description {
+  font-size: 0.75rem;
+  opacity: 0.8;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.custom-event.cancelled .event-title,
+.custom-event.cancelled .event-description {
+  opacity: 0.6;
+  text-decoration: line-through;
+}
+
+.custom-agenda-event {
+  padding: 10px;
+  margin-bottom: 10px;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.custom-agenda-event:hover {
+  transform: translateX(3px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.custom-agenda-event.cancelled {
+  background: #f9f9f9;
+  color: #999;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.custom-agenda-event.cancelled::before {
+  content: 'ОТМЕНЕНО';
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background-color: #f44336;
+  color: white;
+  padding: 2px 5px;
+  border-radius: 3px;
+  font-size: 0.7rem;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.custom-agenda-event.cancelled:hover {
+  transform: none;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.agenda-event-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 5px;
+}
+
+.agenda-event-time {
+  color: #3892c4;
+  font-weight: 500;
+}
+
+.agenda-event-title {
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+.agenda-event-description {
+  color: #555;
+  font-size: 0.9rem;
+  margin: 5px 0;
+}
+
+.agenda-event-user {
+  font-size: 0.8rem;
+  color: #7f8c8d;
+}
+
+.agenda-event-more {
+  text-align: center;
+  color: #7f8c8d;
+  font-size: 0.9rem;
+  padding: 5px;
+}
+
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  font-size: 1.2rem;
+  color: #2c3e50;
+}
+
+.error {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  font-size: 1.2rem;
+  color: #f44336;
+}
+
+.rbc-agenda-table {
+  border-collapse: separate;
+  border-spacing: 0 10px;
+}
+
+.rbc-agenda-time-cell {
+  padding-left: 15px;
+  color: #2c3e50;
+}
+
+.rbc-agenda-date-cell {
+  padding-left: 15px;
+  color: #2c3e50;
+  font-weight: 500;
+}
+
+@media (max-width: 768px) {
+  .calendar-container {
+    margin: 10px;
+    padding: 15px;
+    height: 85vh;
+  }
+  
+  .rbc-toolbar {
+    height: auto;
+    margin-bottom: 10px;
+  }
+  
+  .rbc-calendar {
+    height: calc(100% - 100px);
+  }
 }
