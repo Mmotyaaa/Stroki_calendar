@@ -19,6 +19,15 @@ const Calendar = () => {
   const [error, setError] = useState(null);
   const [currentView, setCurrentView] = useState(Views.MONTH);
   const [currentDate, setCurrentDate] = useState(new Date());
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   useEffect(() => {
     console.log("Проверка подключения к Firebase...");
@@ -103,10 +112,17 @@ const Calendar = () => {
 
   const handleViewChange = (newView) => {
     setCurrentView(newView);
+    if (newView === Views.AGENDA) {
+      setCurrentDate(new Date());
+    }
   };
 
   const handleToday = () => {
-    setCurrentDate(new Date());
+    const today = new Date();
+    setCurrentDate(today);
+    if (currentView === Views.AGENDA) {
+      setCurrentView(Views.AGENDA);
+    }
   };
 
   // Настройки отображения времени
@@ -118,7 +134,7 @@ const Calendar = () => {
 
   // Фильтрация событий для режима "Расписание"
   const filteredEvents = currentView === Views.AGENDA 
-    ? events.filter(event => moment(event.start).isSame(moment(), 'day'))
+    ? events.filter(event => moment(event.start).isSame(currentDate, 'day'))
     : events;
 
   // Стилизация событий
@@ -150,30 +166,9 @@ const Calendar = () => {
 
   // Компонент для отображения события в режиме расписания
   const CustomAgendaEvent = ({ event }) => {
-    const eventsCount = events.filter(e => 
-      moment(e.start).isSame(event.start, 'day')
-    ).length;
-
-    if (eventsCount > 3 && events.indexOf(event) >= 3) {
-      return null;
-    }
-
-    if (events.indexOf(event) === 3 && eventsCount > 3) {
-      return (
-        <div className="custom-agenda-event">
-          <div className="agenda-event-more">
-            еще +{eventsCount - 3}
-          </div>
-        </div>
-      );
-    }
-
     return (
       <div className="custom-agenda-event">
         <div className="agenda-event-header">
-          <span className="agenda-event-time">
-            {moment(event.start).format('HH:mm')} - {moment(event.end).format ('HH:mm')}
-          </span>
           <span className="agenda-event-title">{event.title}</span>
         </div>
         {event.resource.description && (
@@ -187,6 +182,20 @@ const Calendar = () => {
       </div>
     );
   };
+
+  const CustomAgendaHeader = () => {
+    const dateLabel = moment(currentDate).format('dddd, D MMMM YYYY');
+    return (
+      <div className="custom-agenda-header">
+        {dateLabel}
+      </div>
+    );
+  };
+
+  // Возвращаем null для всех заголовков
+  const CustomAgendaTimeHeader = () => null;
+  const CustomAgendaDateHeader = () => null;
+  const CustomAgendaEventHeader = () => null;
 
   if (loading) {
     return <div className="loading">Загрузка календаря...</div>;
@@ -227,25 +236,29 @@ const Calendar = () => {
         components={{
           event: CustomEvent,
           agenda: {
-            event: CustomAgendaEvent
+            event: CustomAgendaEvent,
+            header: CustomAgendaHeader,
+            timeHeader: CustomAgendaTimeHeader,
+            dateHeader: CustomAgendaDateHeader,
+            eventHeader: CustomAgendaEventHeader
           },
           toolbar: (props) => (
-            <div className="rbc-toolbar">
+            <div className={`rbc-toolbar ${isMobile ? 'mobile' : ''}`}>
               <span className="rbc-btn-group">
                 <button type="button" onClick={handleToday}>
-                  Сегодня
+                  {isMobile ? 'Сег' : 'Сегодня'}
                 </button>
                 <button
                   type="button"
                   onClick={() => props.onNavigate('PREV')}
                 >
-                  Назад
+                  {isMobile ? '←' : 'Назад'}
                 </button>
                 <button
                   type="button"
                   onClick={() => props.onNavigate('NEXT')}
                 >
-                  Вперед
+                  {isMobile ? '→' : 'Вперед'}
                 </button>
               </span>
               <span className="rbc-toolbar-label">
@@ -257,28 +270,28 @@ const Calendar = () => {
                   className={currentView === Views.MONTH ? 'rbc-active' : ''}
                   onClick={() => props.onView(Views.MONTH)}
                 >
-                  Месяц
+                  {isMobile ? 'Мес' : 'Месяц'}
                 </button>
                 <button
                   type="button"
                   className={currentView === Views.WEEK ? 'rbc-active' : ''}
                   onClick={() => props.onView(Views.WEEK)}
                 >
-                  Неделя
+                  {isMobile ? 'Нед' : 'Неделя'}
                 </button>
                 <button
                   type="button"
                   className={currentView === Views.DAY ? 'rbc-active' : ''}
                   onClick={() => props.onView(Views.DAY)}
                 >
-                  День
+                  {isMobile ? 'День' : 'День'}
                 </button>
                 <button
                   type="button"
                   className={currentView === Views.AGENDA ? 'rbc-active' : ''}
                   onClick={() => props.onView(Views.AGENDA)}
                 >
-                  Расписание
+                  {isMobile ? 'Рас' : 'Расписание'}
                 </button>
               </span>
             </div>
@@ -300,7 +313,10 @@ const Calendar = () => {
           day: 'День',
           agenda: 'Расписание',
           noEventsInRange: 'Нет бронирований',
-          showMore: total => `+${total}`
+          showMore: total => `+${total}`,
+          date: 'Дата',
+          time: 'Время',
+          event: 'Событие'
         }}
       />
 

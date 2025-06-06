@@ -318,19 +318,159 @@
   font-weight: 500;
 }
 
+.rbc-agenda-header {
+  text-align: center;
+  padding: 10px;
+  font-weight: 600;
+  color: #2c3e50;
+  font-size: 1.1rem;
+}
+
+/* Мобильная адаптация */
 @media (max-width: 768px) {
   .calendar-container {
-    margin: 10px;
-    padding: 15px;
+    margin: 5px;
+    padding: 10px;
     height: 85vh;
+    border-radius: 10px;
   }
   
   .rbc-toolbar {
     height: auto;
     margin-bottom: 10px;
+    flex-direction: column;
+    gap: 10px;
   }
   
   .rbc-calendar {
-    height: calc(100% - 100px);
+    height: calc(100% - 120px);
+  }
+  
+  .rbc-btn-group {
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .rbc-btn-group button {
+    padding: 6px 10px;
+    font-size: 12px;
+    min-width: 50px;
+  }
+  
+  .rbc-toolbar-label {
+    font-size: 1rem;
+    padding: 5px;
+    order: -1;
+    width: 100%;
+    text-align: center;
+  }
+  
+  .rbc-header {
+    padding: 5px 0;
+    font-size: 12px;
+  }
+  
+  .rbc-date-cell {
+    font-size: 12px;
+  }
+  
+  .rbc-event {
+    font-size: 10px;
+    padding: 1px 3px;
+  }
+  
+  .custom-agenda-event {
+    padding: 8px;
+    margin-bottom: 8px;
+  }
+  
+  .agenda-event-header {
+    flex-direction: column;
+    gap: 3px;
+  }
+  
+  .agenda-event-time,
+  .agenda-event-title {
+    font-size: 0.9rem;
+  }
+  
+  .agenda-event-description {
+    font-size: 0.8rem;
+  }
+  
+  .agenda-event-user {
+    font-size: 0.7rem;
+  }
+  
+  .rbc-agenda-header {
+    font-size: 0.9rem;
+    padding: 5px;
+  }
+}
+
+@media (max-width: 480px) {
+  .rbc-btn-group button {
+    padding: 4px 6px;
+    font-size: 11px;
+    min-width: 40px;
+  }
+  
+  .rbc-toolbar-label {
+    font-size: 0.9rem;
+  }
+  
+  .custom-agenda-event {
+    padding: 6px;
+  }
+}
+
+.rbc-agenda-time-header,
+.rbc-agenda-date-header,
+.rbc-agenda-event-header {
+  font-weight: 600;
+  color: #2c3e50;
+  padding: 8px;
+  text-align: center;
+  background-color: #f8f9fa;
+  border-bottom: 2px solid #e0e0e0;
+}
+
+.rbc-agenda-time-cell,
+.rbc-agenda-date-cell,
+.rbc-agenda-event-cell {
+  padding: 8px;
+  border-bottom: 1px solid #eee;
+}
+
+.rbc-agenda-time-cell {
+  font-weight: 500;
+}
+
+.rbc-agenda-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.rbc-agenda-table thead {
+  position: sticky;
+  top: 0;
+  background-color: white;
+  z-index: 1;
+}
+
+@media (max-width: 768px) {
+  .rbc-agenda-time-header,
+  .rbc-agenda-date-header,
+  .rbc-agenda-event-header {
+    padding: 6px;
+    font-size: 14px;
+  }
+  
+  .rbc-agenda-time-cell,
+  .rbc-agenda-date-cell,
+  .rbc-agenda-event-cell {
+    padding: 6px;
+    font-size: 13px;
   }
 }
