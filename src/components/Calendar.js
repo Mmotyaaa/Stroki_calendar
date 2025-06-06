@@ -192,11 +192,6 @@ const Calendar = () => {
     );
   };
 
-  // Возвращаем null для всех заголовков
-  const CustomAgendaTimeHeader = () => null;
-  const CustomAgendaDateHeader = () => null;
-  const CustomAgendaEventHeader = () => null;
-
   if (loading) {
     return <div className="loading">Загрузка календаря...</div>;
   }
@@ -238,9 +233,9 @@ const Calendar = () => {
           agenda: {
             event: CustomAgendaEvent,
             header: CustomAgendaHeader,
-            timeHeader: CustomAgendaTimeHeader,
-            dateHeader: CustomAgendaDateHeader,
-            eventHeader: CustomAgendaEventHeader
+            timeHeader: () => null,
+            dateHeader: () => null,
+            eventHeader: () => null
           },
           toolbar: (props) => (
             <div className={`rbc-toolbar ${isMobile ? 'mobile' : ''}`}>
@@ -311,7 +306,8 @@ const Calendar = () => {
           month: 'Месяц',
           week: 'Неделя',
           day: 'День',
-          agenda: 'Расписание',
+          agenda: (date) => moment(date).format('dddd, D MMMM YYYY'),
+          noEventsInRange: 'Нет бронирований',
           noEventsInRange: 'Нет бронирований',
           showMore: total => `+${total}`,
           date: 'Дата',
